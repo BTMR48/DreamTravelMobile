@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "939180719034",
+    "project_id": "dreamtravel-b9c3f",
+    "storage_bucket": "dreamtravel-b9c3f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:939180719034:android:d57e3f0c6d915a9316bb83",
+        "android_client_info": {
+          "package_name": "com.tbmr.dreamtravel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWnzvkENLebS6ItKqlRp_ck0Jxm-t4lYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
