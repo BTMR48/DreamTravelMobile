@@ -3,4 +3,12 @@
     <string name="spscreen">Dream Travel</string>
     <string name="FROM">from</string>
     <string name="TBMR">TBMR Technology</string>
+    <string name="train_list">Train List</string>
+    <string name="avartaricon">avartarIcon</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="enter_nic">Enter Nic</string>
+    <string name="enter_user_name">Enter User Name</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="ticketbook">ticketBook</string>
+    <string name="ticket_book">Ticket Book</string>
 </resources>

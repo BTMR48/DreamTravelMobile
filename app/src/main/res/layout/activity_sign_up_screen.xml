@@ -19,7 +19,7 @@
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoLottieAnimation"
+        app:layout_constraintTop_toBottomOf="@+id/signupNic"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     <EditText
         android:id="@+id/signupPass"
@@ -47,36 +47,10 @@
         android:inputType="textCapCharacters"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signupPass"
+        app:layout_constraintTop_toBottomOf="@+id/logoLottieAnimation"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-    <EditText
-        android:id="@+id/signupUserName"
-        android:layout_width="247dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="80dp"
-        android:ems="10"
-        android:hint="Enter User Name"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signupNic"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-    <EditText
-        android:id="@+id/signupPhone"
-        android:layout_width="247dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="36dp"
-        android:layout_marginEnd="80dp"
-        android:ems="10"
-        android:hint="Enter Phone Number"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signupUserName"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+
     <Button
         android:id="@+id/signupbtn"
         android:layout_width="121dp"
@@ -90,7 +64,7 @@
         app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signupPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/signupPass" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/logoLottieAnimation"
@@ -121,4 +95,28 @@
         app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signupbtn" />
+
+    <!--text view for displaying our API response-->
+
+    <!--progress bar for loading -->
+    <TextView
+        android:id="@+id/idTVResponse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center_horizontal"
+        android:text="Response"
+        android:textAlignment="center"
+        android:textSize="15sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="626dp" />
+
+    <ProgressBar
+        android:id="@+id/idLoadingPB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,4 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".HomeScreen">
 
+    <!-- Title in the top center -->
+
+
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="@string/train_list"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/userIcon"
+        app:layout_constraintHorizontal_bias="0.641"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- User icon on the top right -->
+    <ImageView
+        android:id="@+id/userIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:clickable="true"
+        android:contentDescription="@string/avartaricon"
+        android:focusable="true"
+        android:onClick="userEditScreen"
+        android:src="@drawable/avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/nic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="152dp"
+        android:gravity="center_horizontal"
+        android:text="nic"
+        android:textAlignment="center"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="26dp" />
+
+    <TextView
+        android:id="@+id/token"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center_horizontal"
+        android:text="token"
+        android:textAlignment="center"
+        android:textSize="15sp"
+        app:layout_constraintTop_toBottomOf="@+id/nic"
+
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="26dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

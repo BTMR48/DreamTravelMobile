@@ -42,4 +42,7 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.7.0' // Check for the latest version
     implementation'com.google.firebase:firebase-auth:22.1.2'
     implementation'com.google.firebase:firebase-firestore:24.8.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+
 }
