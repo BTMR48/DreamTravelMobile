@@ -48,6 +48,7 @@ public class Ticket_Booked_list extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        idTVResponse = findViewById(R.id.idTVResponse); // Replace 'idTVResponse' with the actual ID from your XML layout
 
         bookings = new ArrayList<>();
         bookingAdapter = new BookingAdapter(bookings);
@@ -103,13 +104,14 @@ public class Ticket_Booked_list extends AppCompatActivity {
                         bookings.clear();
                         for (int i = 0; i < jsonResponse.length(); i++) {
                             JSONObject bookingObject = jsonResponse.getJSONObject(i);
+                            String referenceID = bookingObject.getString("referenceID");
                             String scheduleID = bookingObject.getString("scheduleID");
                             String bookingID = bookingObject.getString("bookingID");
                             int seatCount = bookingObject.getInt("seatCount");
                             String trainID = bookingObject.getString("trainID");
                             String reservationDate = bookingObject.getString("reservationDate");
                             int status = bookingObject.getInt("status");
-                            bookings.add(new Booking(scheduleID,bookingID, seatCount, trainID, reservationDate, status));
+                            bookings.add(new Booking(referenceID,scheduleID,bookingID, seatCount, trainID, reservationDate, status));
                         }
 
                         // Update RecyclerView on the main thread
@@ -237,6 +239,12 @@ public class Ticket_Booked_list extends AppCompatActivity {
                     connection.setRequestMethod("PUT");
                     connection.setRequestProperty("Authorization", "Bearer " + token);
                     connection.setRequestProperty("Content-Type", "application/json");
+                    System.out.println("bookingID: " + booking.bookingID);
+                    System.out.println("nic: " + nic);
+                    System.out.println("trainID"+ booking.trainID);
+                    System.out.println("referenceID"+ booking.getReferenceID());
+                    System.out.println("scheduleId " +  booking.getScheduleID());
+
 
                     JSONObject jsonRequest = new JSONObject();
                     jsonRequest.put("id", "");
@@ -246,7 +254,7 @@ public class Ticket_Booked_list extends AppCompatActivity {
                     jsonRequest.put("reservationDate", booking.reservationDate);
                     jsonRequest.put("bookingDate", booking.bookingDate);
                     jsonRequest.put("status", booking.status);
-                    jsonRequest.put("referenceID", booking.referenceID);
+                    jsonRequest.put("referenceID", booking.getReferenceID());
                     jsonRequest.put("scheduleId", booking.getScheduleID());
 
                     //   jsonRequest.put("seatCount", seatCount);
@@ -309,13 +317,14 @@ public class Ticket_Booked_list extends AppCompatActivity {
 
 
 
-        public Booking(String scheduleID,String bookingID, int seatCount, String trainID, String reservationDate, int status) {
+        public Booking(String referenceID,String scheduleID,String bookingID, int seatCount, String trainID, String reservationDate, int status) {
             this.bookingID = bookingID;
             this.seatCount = seatCount;
             this.trainID = trainID;
             this.reservationDate = reservationDate;
             this.status = status;
             this.scheduleID = scheduleID;
+            this.referenceID = referenceID;
         }
 
         public String getBookingID() {
@@ -340,8 +349,10 @@ public class Ticket_Booked_list extends AppCompatActivity {
         public String getScheduleID() {
             return scheduleID;
         }
-        
-     
+
+        public String getReferenceID() {
+            return referenceID;
+        }
 
     }
 
@@ -420,7 +431,37 @@ public class Ticket_Booked_list extends AppCompatActivity {
                 cancelButton = itemView.findViewById(R.id.cancelButton);
                 updateButton = itemView.findViewById(R.id.updateButton);
                 scheduleIdTextView = itemView.findViewById(R.id.scheduleId);  // Make sure the ID matches what's in your XML layout
+// Set OnClickListener for the update button
+                updateButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Get the seat count from the EditText
+                        String seatCount = seatCountEditText.getText().toString();
 
+                        // Get the token and nic
+                        String token = LoginScreen.getToken(itemView.getContext());
+                        String nic = LoginScreen.getNic(itemView.getContext());
+
+                        // Call the updateBooking method
+                        Booking booking = bookings.get(getAdapterPosition());
+                        updateBooking(booking, seatCount, token, nic);
+                    }
+                });
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Get the seat count from the EditText
+                        String seatCount = seatCountEditText.getText().toString();
+
+                        // Get the token and nic
+                        String token = LoginScreen.getToken(itemView.getContext());
+                        String nic = LoginScreen.getNic(itemView.getContext());
+
+                        // Call the updateBooking method
+                        Booking booking = bookings.get(getAdapterPosition());
+                        cancelBooking( token, nic);
+                    }
+                });
             }
 
             void bind(Booking booking) {
