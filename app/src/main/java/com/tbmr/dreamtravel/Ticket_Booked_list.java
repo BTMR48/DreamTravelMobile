@@ -103,12 +103,13 @@ public class Ticket_Booked_list extends AppCompatActivity {
                         bookings.clear();
                         for (int i = 0; i < jsonResponse.length(); i++) {
                             JSONObject bookingObject = jsonResponse.getJSONObject(i);
+                            String scheduleID = bookingObject.getString("scheduleID");
                             String bookingID = bookingObject.getString("bookingID");
                             int seatCount = bookingObject.getInt("seatCount");
                             String trainID = bookingObject.getString("trainID");
                             String reservationDate = bookingObject.getString("reservationDate");
                             int status = bookingObject.getInt("status");
-                            bookings.add(new Booking(bookingID, seatCount, trainID, reservationDate, status));
+                            bookings.add(new Booking(scheduleID,bookingID, seatCount, trainID, reservationDate, status));
                         }
 
                         // Update RecyclerView on the main thread
@@ -246,6 +247,8 @@ public class Ticket_Booked_list extends AppCompatActivity {
                     jsonRequest.put("bookingDate", booking.bookingDate);
                     jsonRequest.put("status", booking.status);
                     jsonRequest.put("referenceID", booking.referenceID);
+                    jsonRequest.put("scheduleId", booking.getScheduleID());
+
                     //   jsonRequest.put("seatCount", seatCount);
 
                     OutputStream os = connection.getOutputStream();
@@ -299,24 +302,20 @@ public class Ticket_Booked_list extends AppCompatActivity {
         String reservationDate;
         String bookingDate;
         String referenceID;
+        String  scheduleID;
         int status;
 
-        Booking(String bookingID, int seatCount, String trainID, String reservationDate, int status, String bookingDate, String referenceID) {
-            this.bookingID = bookingID;
-            this.seatCount = seatCount;
-            this.trainID = trainID;
-            this.reservationDate = reservationDate;
-            this.status = status;
-            this.bookingDate = bookingDate;
-            this.referenceID = referenceID;
-        }
 
-        public Booking(String bookingID, int seatCount, String trainID, String reservationDate, int status) {
+
+
+
+        public Booking(String scheduleID,String bookingID, int seatCount, String trainID, String reservationDate, int status) {
             this.bookingID = bookingID;
             this.seatCount = seatCount;
             this.trainID = trainID;
             this.reservationDate = reservationDate;
             this.status = status;
+            this.scheduleID = scheduleID;
         }
 
         public String getBookingID() {
@@ -338,6 +337,12 @@ public class Ticket_Booked_list extends AppCompatActivity {
         public int getStatus() {
             return status;
         }
+        public String getScheduleID() {
+            return scheduleID;
+        }
+        
+     
+
     }
 
 
@@ -364,6 +369,13 @@ public class Ticket_Booked_list extends AppCompatActivity {
             holder.seatCountEditText.setText(String.valueOf(booking.getSeatCount()));
             holder.trainIDTextView.setText("Train ID: " + booking.getTrainID());
             holder.reservationDateTextView.setText("Reservation Date: " + booking.getReservationDate());
+            if (booking.getScheduleID() != null) {
+                holder.scheduleIdTextView.setText("scheduleID: " + booking.getScheduleID());
+            } else {
+                holder.scheduleIdTextView.setText("scheduleID: N/A");  // or set it to some default value or make it invisible
+            }
+
+
 
             if (booking.getStatus() == 0) {
                 holder.statusTextView.setText("Status: Active");
@@ -393,7 +405,7 @@ public class Ticket_Booked_list extends AppCompatActivity {
             TextView bookingIDTextView;
             EditText seatCountEditText;
             TextView trainIDTextView;
-            TextView reservationDateTextView;
+            TextView reservationDateTextView,scheduleIdTextView;
             TextView statusTextView;
             Button cancelButton;
             Button updateButton;
@@ -407,6 +419,8 @@ public class Ticket_Booked_list extends AppCompatActivity {
                 statusTextView = itemView.findViewById(R.id.status);
                 cancelButton = itemView.findViewById(R.id.cancelButton);
                 updateButton = itemView.findViewById(R.id.updateButton);
+                scheduleIdTextView = itemView.findViewById(R.id.scheduleId);  // Make sure the ID matches what's in your XML layout
+
             }
 
             void bind(Booking booking) {
