@@ -287,6 +287,11 @@ public class Ticket_Booked_list extends AppCompatActivity {
             }
         }).start();
     }
+
+    public void homePage(View view) {
+        Intent intent = new Intent(this,HomeScreen.class);
+        startActivity(intent);
+    }
     private static class Booking {
         String bookingID;
         int seatCount;

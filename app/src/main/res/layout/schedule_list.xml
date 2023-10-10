@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/arrivalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="arrivalTime" />
+        <TextView
+            android:id="@+id/departureTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="departureTime" />
+
+
+
+
+        <TextView
+            android:id="@+id/startStation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="startStation" />
+
+        <TextView
+            android:id="@+id/stoppingStation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="stoppingStation" />
+
+        <TextView
+            android:id="@+id/trainName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status" />
+
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

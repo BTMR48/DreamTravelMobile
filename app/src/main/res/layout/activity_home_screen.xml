@@ -56,20 +56,26 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/shedule_list"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+        tools:layout_editor_absoluteX="0dp" />
+
     <TextView
         android:id="@+id/nic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_marginTop="196dp"
 
         android:gravity="center_horizontal"
         android:text="nic"
         android:textAlignment="center"
         android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/titleTextView"
+        app:layout_constraintTop_toBottomOf="@+id/shedule_list"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp" />
+        tools:layout_editor_absoluteX="19dp" />
 
     <TextView
         android:id="@+id/token"
@@ -86,21 +92,5 @@
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="10dp" />
 
-    <ImageView
-        android:id="@+id/trainTicketBook"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="268dp"
-        android:clickable="true"
-        android:contentDescription="@string/avartaricon"
-        android:focusable="true"
-        android:onClick="trainTicketBooking"
-        android:src="@drawable/avatar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/token"
-        tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
