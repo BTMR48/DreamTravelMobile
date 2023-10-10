@@ -32,6 +32,12 @@ public class HomeScreen extends AppCompatActivity {
         Intent intent = new Intent(this, userEditScreen.class);
         startActivity(intent);
     }
-
-
+    public void useBookHistory(View view) {
+        Intent intent = new Intent(this, Ticket_Booked_list.class);
+        startActivity(intent);
+    }
+    public void trainTicketBooking(View view) {
+        Intent intent = new Intent(this, train_ticket_book.class);
+        startActivity(intent);
+    }
 }

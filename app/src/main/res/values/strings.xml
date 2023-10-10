@@ -9,6 +9,6 @@
     <string name="enter_nic">Enter Nic</string>
     <string name="enter_user_name">Enter User Name</string>
     <string name="sign_up">SIGN UP</string>
-    <string name="ticketbook">ticketBook</string>
-    <string name="ticket_book">Ticket Book</string>
+    <string name="ticketbook">Booking History</string>
+    <string name="ticket_booked">Ticket Book</string>
 </resources>

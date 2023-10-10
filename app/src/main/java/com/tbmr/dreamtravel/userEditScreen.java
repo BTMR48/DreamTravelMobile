@@ -30,7 +30,8 @@ import java.util.Date;
 public class userEditScreen extends AppCompatActivity {
     private EditText  userEditEmail,userEditNic, userEditName, userEditBirthday, userEditPass;
     private TextView idTVResponse;
-    private Button userEditbtn;
+    private Button userEditbtn,userDeactivateBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +42,24 @@ public class userEditScreen extends AppCompatActivity {
         userEditBirthday = findViewById(R.id.userEditBirthday);
         userEditbtn = findViewById(R.id.userEditbtn);
         idTVResponse = findViewById(R.id.idTVResponse);
+         userDeactivateBtn = findViewById(R.id.userDeactivateBtn);
+
         // Fetch user data
         fetchUserData();
         userEditbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 updateUser();
+
+            }
+        });
+        userDeactivateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                deactivateUser();
+
             }
         });
 
@@ -239,5 +252,51 @@ public class userEditScreen extends AppCompatActivity {
         }).start();
     }
 
+    private void deactivateUser() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String token = LoginScreen.getToken(getApplicationContext());
+                    String nic = LoginScreen.getNic(getApplicationContext());
+                    String apiUrl = "https://10.0.2.2:62214/api/users/" + nic + "/deactivate";
+
+                    URL url = new URL(apiUrl);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("PATCH"); // Assuming the method is POST
+                    connection.setRequestProperty("Authorization", "Bearer " + token);
+
+                    int responseCode = connection.getResponseCode();
+
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Navigate to LoginScreen
+                                Intent intent = new Intent(userEditScreen.this, LoginScreen.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                    } else {
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                idTVResponse.setText("Failed to deactivate! Response code: " + responseCode);
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            idTVResponse.setText("Network error: " + e.getMessage());
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
 
 }

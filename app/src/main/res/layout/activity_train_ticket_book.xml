@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
-        android:contentDescription="@string/ticketbook"
+        android:contentDescription="@string/ticket_booked"
         android:onClick="homePage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,15 +26,39 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="137dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="24dp"
         android:layout_toEndOf="@+id/back"
         android:fontFamily="arial"
-        android:text="@string/ticket_book"
+        android:text="@string/ticket_booked"
         android:textColor="@color/blue"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/back"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/seatCount"
+        android:layout_width="247dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="476dp"
+        android:ems="10"
+        android:hint="EnterSeat Count"
+        app:layout_constraintTop_toBottomOf="@+id/product"
+        tools:ignore="MissingConstraints,SpeakableTextPresentCheck,TouchTargetSizeCheck"
+        tools:layout_editor_absoluteX="68dp" />
+
+    <Button
+        android:id="@+id/userEditbtn"
+        android:layout_width="173dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/btn_green_gradient"
+        android:gravity="center"
+        android:text="Book Seats"
+        app:backgroundTint="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seatCount" />
 </androidx.constraintlayout.widget.ConstraintLayout>
