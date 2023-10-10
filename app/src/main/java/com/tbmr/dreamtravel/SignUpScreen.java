@@ -1,5 +1,6 @@
 package com.tbmr.dreamtravel;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,6 +22,9 @@ import org.json.JSONObject;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.net.ssl.HostnameVerifier;
@@ -64,16 +69,47 @@ public class SignUpScreen extends AppCompatActivity {
         loadingPB = findViewById(R.id.idLoadingPB); // Make sure you have a ProgressBar with this ID in your layout
         signUpName = findViewById(R.id.signupName);
         signUpDateOfBirth = findViewById(R.id.signupBirthday);
-        signUpBtn.setOnClickListener(new View.OnClickListener() {
+
+        // Initialize calendar and get the current date
+        final Calendar calendar = Calendar.getInstance();
+        final int year = calendar.get(Calendar.YEAR);
+        final int month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+        // Calculate the minimum date (yesterday)
+        Calendar maxDate = Calendar.getInstance();
+        maxDate.add(Calendar.YEAR, -10);
+        Calendar minDate = Calendar.getInstance();
+        minDate.add(Calendar.YEAR, -100);
+
+        signUpDateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mEmail.getText().toString().isEmpty() || mPass.getText().toString().isEmpty() || signUpNic.getText().toString().isEmpty()) {
-                    Toast.makeText(SignUpScreen.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                registerNewUser();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SignUpScreen.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                String selectedDate = year +  "-" + (month + 1) + "-"+ dayOfMonth   ;
+                                signUpDateOfBirth.setText(selectedDate);
+                            }
+                        }, year, month, day);
+
+                // Set the minimum and maximum dates
+                datePickerDialog.getDatePicker().setMinDate(minDate.getTimeInMillis());
+                datePickerDialog.getDatePicker().setMaxDate(maxDate.getTimeInMillis());
+
+                datePickerDialog.show();
             }
         });
+
+        signUpBtn.setOnClickListener(v -> {
+            if (mEmail.getText().toString().isEmpty() || mPass.getText().toString().isEmpty() || signUpNic.getText().toString().isEmpty()) {
+                Toast.makeText(SignUpScreen.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            registerNewUser();
+        });
+
+
     }
 
     private void registerNewUser() {
@@ -138,13 +174,21 @@ public class SignUpScreen extends AppCompatActivity {
                                     @Override
                                     public void run() {
                                         try {
+                                            String originalDateStr = signUpDateOfBirth.getText().toString(); // Make sure this matches the actual format
+                                            SimpleDateFormat originalFormat = new SimpleDateFormat("yyyy-MM-dd"); // Make sure this is the format in signUpDateOfBirth
+                                            SimpleDateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                            Date date;
+                                            date = originalFormat.parse(originalDateStr);
+                                            String formattedDateStr = targetFormat.format(date);  // This should now be like "2023-10-05"
+
                                             String secondApiUrl = "https://10.0.2.2:62214/api/travelers/register";
                                             JSONObject secondJsonRequest = new JSONObject();
                                             secondJsonRequest.put("id", "");
                                             secondJsonRequest.put("nic", signUpNic.getText().toString());
                                             secondJsonRequest.put("email", mEmail.getText().toString());
                                             secondJsonRequest.put("name", signUpName.getText().toString()); // Assuming you have a signUpName EditText
-                                            secondJsonRequest.put("dateOfBirth", "2023-11-08");
+                                            secondJsonRequest.put("dateOfBirth", formattedDateStr);
+
 
                                             URL secondUrl = new URL(secondApiUrl);
                                             HttpURLConnection secondConnection = (HttpURLConnection) secondUrl.openConnection();
@@ -162,8 +206,21 @@ public class SignUpScreen extends AppCompatActivity {
                                                 public void run() {
                                                     if (secondResponseCode == HttpURLConnection.HTTP_OK) {
                                                         responseTV.setText("Both registrations were successful!");
+                                                        System.out.println("Date of Birth: " + formattedDateStr);
+                                                        Intent intent;
+
+
+                                                        // Handle other cases or defaults here if necessary
+                                                        intent = new Intent(SignUpScreen.this, LoginScreen.class);  // default action; change as needed
+
+
+                                                        startActivity(intent);
+
                                                     } else {
                                                         responseTV.setText("Second registration failed! Response code: " + secondResponseCode);
+
+                                                        System.out.println("Date of Birth: " + originalDateStr);
+
                                                     }
                                                     loadingPB.setVisibility(View.GONE);
                                                 }

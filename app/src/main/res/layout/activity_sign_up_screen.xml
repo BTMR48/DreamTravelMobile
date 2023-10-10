@@ -47,11 +47,14 @@
         android:layout_marginEnd="80dp"
         android:ems="10"
         android:hint="Enter Birthday"
+        android:focusable="false"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signupName"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
 
     <EditText
         android:id="@+id/signupPass"
@@ -150,9 +153,12 @@
 
     <ProgressBar
         android:id="@+id/idLoadingPB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="113dp"
+        android:layout_height="135dp"
         android:layout_gravity="center"
-        android:visibility="gone"
-        tools:ignore="MissingConstraints" />
+
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="@+id/signupNic"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="147dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
