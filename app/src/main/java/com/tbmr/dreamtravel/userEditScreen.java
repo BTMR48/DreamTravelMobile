@@ -91,7 +91,7 @@ public class userEditScreen extends AppCompatActivity {
                         final String name = jsonResponse.getString("name");
                         final String email = jsonResponse.getString("email");
                         final String nicApi = jsonResponse.getString("nic");
-//                        final boolean isActive = Boolean.parseBoolean(jsonResponse.getString("isActive"));
+//
 
                         String displayDate = "N/A";
                         if (jsonResponse.has("dateOfBirth") && !jsonResponse.isNull("dateOfBirth")) {
