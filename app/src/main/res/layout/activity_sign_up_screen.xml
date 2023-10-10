@@ -38,16 +38,20 @@
         app:layout_constraintTop_toBottomOf="@+id/signupPass"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
-
-    <com.google.android.material.textfield.TextInputLayout
+    <EditText
         android:id="@+id/signupBirthday"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Birthday"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextBirthday">
-
-    </com.google.android.material.textfield.TextInputLayout>
-
+        android:layout_width="247dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="80dp"
+        android:ems="10"
+        android:hint="Enter Birthday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.75"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signupName"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/signupPass"
@@ -85,7 +89,7 @@
         android:layout_width="121dp"
         android:layout_height="48dp"
         android:layout_marginStart="100dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="100dp"
         android:background="@drawable/btn_green_gradient"
         android:gravity="center"
@@ -93,28 +97,26 @@
         app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idTVResponse" />
-
-    <!--text view for displaying our API response-->
-
-    <!--progress bar for loading -->
+        app:layout_constraintTop_toBottomOf="@+id/signupBirthday" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/logoLottieAnimation"
-        android:layout_width="500dp"
+        android:layout_width="510dp"
         android:layout_height="232dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/logo"
-        tools:visibility="visible" />
+        app:lottie_rawRes="@raw/logo" />
+
+    <!--text view for displaying our API response-->
+
+    <!--progress bar for loading -->
 
     <TextView
         android:id="@+id/loginpath"
@@ -128,7 +130,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextBirthday" />
+        app:layout_constraintTop_toBottomOf="@+id/idTVResponse"     />
 <!--        app:onClick="NavigateToLogin" -->
 
 
@@ -137,43 +139,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
         android:text="Response"
         android:textAlignment="center"
         android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginpath"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintTop_toBottomOf="@+id/signupbtn"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="16dp" />
 
     <ProgressBar
         android:id="@+id/idLoadingPB"
-        android:layout_width="134dp"
-        android:layout_height="254dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="60dp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoLottieAnimation"
+        android:visibility="gone"
         tools:ignore="MissingConstraints" />
-
-<!--    <com.google.android.material.textfield.TextInputEditText-->
-<!--        android:id="@+id/editTextBirthday"-->
-<!--        android:layout_width="255dp"-->
-<!--        android:layout_height="51dp"-->
-<!--        android:layout_marginStart="83dp"-->
-<!--        android:layout_marginTop="48dp"-->
-<!--        android:layout_marginEnd="77dp"-->
-<!--        android:focusable="false"-->
-<!--        android:inputType="none"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/signupName" />-->
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

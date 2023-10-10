@@ -40,7 +40,7 @@ import retrofit2.http.POST;
 
 public class SignUpScreen extends AppCompatActivity {
 
-    private EditText mEmail, mPass, signUpNic;
+    private EditText mEmail, mPass, signUpNic,signUpName,signUpDateOfBirth;
     private Button signUpBtn;
     private TextView responseTV;
     private ProgressBar loadingPB;
@@ -62,7 +62,8 @@ public class SignUpScreen extends AppCompatActivity {
         signUpBtn = findViewById(R.id.signupbtn);
         responseTV = findViewById(R.id.idTVResponse); // Make sure you have a TextView with this ID in your layout
         loadingPB = findViewById(R.id.idLoadingPB); // Make sure you have a ProgressBar with this ID in your layout
-
+        signUpName = findViewById(R.id.signupName);
+        signUpDateOfBirth = findViewById(R.id.signupBirthday);
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,14 +132,61 @@ public class SignUpScreen extends AppCompatActivity {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            loadingPB.setVisibility(View.GONE);
                             if (responseCode == HttpURLConnection.HTTP_OK) {
-                                responseTV.setText("Registered Successfully!");
+                                // Start the second API call here
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            String secondApiUrl = "https://10.0.2.2:62214/api/travelers/register";
+                                            JSONObject secondJsonRequest = new JSONObject();
+                                            secondJsonRequest.put("id", "");
+                                            secondJsonRequest.put("nic", signUpNic.getText().toString());
+                                            secondJsonRequest.put("email", mEmail.getText().toString());
+                                            secondJsonRequest.put("name", signUpName.getText().toString()); // Assuming you have a signUpName EditText
+                                            secondJsonRequest.put("dateOfBirth", "2023-11-08");
+
+                                            URL secondUrl = new URL(secondApiUrl);
+                                            HttpURLConnection secondConnection = (HttpURLConnection) secondUrl.openConnection();
+                                            secondConnection.setRequestMethod("POST");
+                                            secondConnection.setRequestProperty("Content-Type", "application/json");
+                                            secondConnection.setDoOutput(true);
+
+                                            byte[] secondOutputBytes = secondJsonRequest.toString().getBytes("UTF-8");
+                                            secondConnection.getOutputStream().write(secondOutputBytes);
+
+                                            int secondResponseCode = secondConnection.getResponseCode();
+
+                                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    if (secondResponseCode == HttpURLConnection.HTTP_OK) {
+                                                        responseTV.setText("Both registrations were successful!");
+                                                    } else {
+                                                        responseTV.setText("Second registration failed! Response code: " + secondResponseCode);
+                                                    }
+                                                    loadingPB.setVisibility(View.GONE);
+                                                }
+                                            });
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    responseTV.setText("Network error in second API call: " + e.getMessage());
+                                                    loadingPB.setVisibility(View.GONE);
+                                                }
+                                            });
+                                        }
+                                    }
+                                }).start();
                             } else {
-                                responseTV.setText("Registration failed! Response code: " + responseCode);
+                                responseTV.setText("First registration failed! Response code: " + responseCode);
+                                loadingPB.setVisibility(View.GONE);
                             }
                         }
                     });
+
 
                 } catch (Exception e) {
                     e.printStackTrace();

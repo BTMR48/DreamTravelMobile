@@ -145,21 +145,122 @@ public class LoginScreen extends AppCompatActivity {
                         // Navigate to HomeScreen on the UI thread
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             // Get the token using the travel register method
-                            String travelerRegistered = userEditScreen.getTravelerRegistered(getApplicationContext());
 
                             @Override
                             public void run() {
                                 loadingPB.setVisibility(View.GONE);
+                                try {
+                                    // Bypass SSL for development purposes ONLY
+                                    TrustManager[] trustAllCertificates = new TrustManager[]{
+                                            new X509TrustManager() {
+                                                public X509Certificate[] getAcceptedIssuers() {
+                                                    return null;
+                                                }
+
+                                                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                                                }
+
+                                                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                                                }
+                                            }
+                                    };
+                                    SSLContext sc = SSLContext.getInstance("TLS");
+                                    sc.init(null, trustAllCertificates, new java.security.SecureRandom());
+                                    HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+                                    HostnameVerifier allHostsValid = new HostnameVerifier() {
+                                        public boolean verify(String hostname, SSLSession session) {
+                                            return true;
+                                        }
+                                    };
+                                    HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+
+                                    // API URL for login
+                                    String apiUrl = "https://10.0.2.2:62214/api/travelers/register";
+
+                                    // Create a JSON request
+                                    JSONObject jsonRequest = new JSONObject();
+                                    jsonRequest.put("nic", mNic.getText().toString());
+                                    jsonRequest.put("password", mPass.getText().toString());
+
+                                    // Send the POST request
+                                    URL url = new URL(apiUrl);
+                                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                                    connection.setRequestMethod("POST");
+                                    connection.setRequestProperty("Content-Type", "application/json");
+                                    connection.setDoOutput(true);
+
+                                    byte[] outputBytes = jsonRequest.toString().getBytes("UTF-8");
+                                    connection.getOutputStream().write(outputBytes);
+
+                                    int responseCode = connection.getResponseCode();
+                                    String responseMessage = "";
+
+                                    // Handle the response on the UI thread
+                                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                                        InputStream inputStream = connection.getInputStream();
+                                        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                                        StringBuilder sb = new StringBuilder();
+                                        String line;
+                                        while ((line = reader.readLine()) != null) {
+                                            sb.append(line);
+                                        }
+                                        responseMessage = sb.toString();
+
+                                        // Here, you can extract the token and do further processing
+                                        JSONObject jsonResponse = new JSONObject(responseMessage);
+                                        String token = jsonResponse.getString("token");
+
+                                        // Save token to SharedPreferences
+                                        saveToken(token);
+                                        saveNic(mNic.getText().toString());
+
+                                        // Navigate to HomeScreen on the UI thread
+                                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                            // Get the token using the travel register method
+
+                                            @Override
+                                            public void run() {
+                                                loadingPB.setVisibility(View.GONE);
+                                                Intent intent;
+
+
+                                                // Handle other cases or defaults here if necessary
+                                                intent = new Intent(LoginScreen.this, HomeScreen.class);  // default action; change as needed
+
+
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                        });
+                                    } else {
+                                        // Handle unsuccessful login attempts or other server responses
+                                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                loadingPB.setVisibility(View.GONE);
+                                                responseTV.setText("Login failed! Response code: " + responseCode);
+                                            }
+                                        });
+                                    }
+
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            loadingPB.setVisibility(View.GONE);
+                                            responseTV.setText("Network error: " + e.getMessage());
+                                        }
+                                    });
+                                }
                                 Intent intent;
 
-                                if (Objects.equals(travelerRegistered, "yes")) {
+
                                     intent = new Intent(LoginScreen.this, HomeScreen.class);
-                                } else if (travelerRegistered == null || travelerRegistered.trim().isEmpty()) {
-                                    intent = new Intent(LoginScreen.this, userEditScreen.class);
-                                } else {
-                                    // Handle other cases or defaults here if necessary
-                                    intent = new Intent(LoginScreen.this, HomeScreen.class);  // default action; change as needed
-                                }
+
+
 
                                 startActivity(intent);
                                 finish();
