@@ -30,7 +30,7 @@ import java.util.Date;
 
 public class train_ticket_book extends AppCompatActivity {
     private String trainId;
-    EditText seatCountEditText,bookDate,seatCount;
+    EditText seatCountEditText,bookDate;
     Button book,bookTicket;
     TextView departureTimeTextView, arrivalTimeTextView, startStationTextView, stoppingStationTextView, trainIdTextView;
     private TextView responseTV;
@@ -41,7 +41,7 @@ public class train_ticket_book extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_train_ticket_book);
         bookDate = findViewById(R.id.bookDate);
-        seatCount = findViewById(R.id.seatCount);
+
         seatCountEditText = findViewById(R.id.seatCount);
         book = findViewById(R.id.bookTicket);
         // Initialize your UI elements
@@ -67,11 +67,11 @@ public class train_ticket_book extends AppCompatActivity {
         String scheduleId = intent.getStringExtra("scheduleId");
         System.out.println("scheduleId: train_ticket_book " + scheduleId);
         book.setOnClickListener(v -> {
-            if (bookDate.getText().toString().isEmpty() || seatCount.getText().toString().isEmpty() ) {
+            if (bookDate.getText().toString().isEmpty() || seatCountEditText.getText().toString().isEmpty() ) {
                 Toast.makeText(train_ticket_book.this, "Please fill out bookDate and seatCount", Toast.LENGTH_SHORT).show();
                 return;
             }
-            bookSeats();
+            bookSeats(scheduleId);
         });
 
         bookDate.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +150,7 @@ public class train_ticket_book extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void bookSeats() {
+    private void bookSeats( String scheduleId) {
         System.out.println("bookSeats METHOD: ");
         new Thread(new Runnable() {
             @Override
@@ -168,20 +168,22 @@ public class train_ticket_book extends AppCompatActivity {
                     Date date;
                     date = originalFormat.parse(originalDateStr);
                     String formattedDateStr = targetFormat.format(date);  // This should now be like "2023-10-05"
-                    String apiUrl = "https://10.0.2.2:62214/api/bookings/";
+                    String apiUrl = "https://10.0.2.2:62214/api/bookings";
 
-                    System.out.println("bookingID: " + String.valueOf(System.currentTimeMillis()));
+                    System.out.println("bookingID: " + System.currentTimeMillis());
                     System.out.println("nic: " + LoginScreen.getNic(getApplicationContext()));
                     System.out.println("trainID: " + trainIdPass);//error message
                     System.out.println("reservationDate: " + formattedDateStr);
                     System.out.println("bookingDate: " + currentDate );
+                    System.out.println("bookingDate: " + currentDate );
 
-
-
-
+                    int seatCountInt = Integer.parseInt(seatCountEditText.getText().toString());
                     JSONObject jsonRequest = new JSONObject();
                     jsonRequest.put("id", "");
                     jsonRequest.put("bookingID", String.valueOf(System.currentTimeMillis()));
+                    jsonRequest.put("scheduleID", scheduleId);
+
+                    jsonRequest.put("seatCount", seatCountInt);
                     jsonRequest.put("nic", LoginScreen.getNic(getApplicationContext()));
                     jsonRequest.put("trainID", trainIdPass);
 
@@ -189,8 +191,8 @@ public class train_ticket_book extends AppCompatActivity {
                     jsonRequest.put("bookingDate", currentDate);
                     jsonRequest.put("status", 0);
                     jsonRequest.put("referenceID", "string");
-                    jsonRequest.put("scheduleID", "2");
-//                    jsonRequest.put("seatCount", "4");
+
+
                     URL url = new URL(apiUrl);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     String token = LoginScreen.getToken(getApplicationContext());
@@ -224,6 +226,15 @@ public class train_ticket_book extends AppCompatActivity {
                         new Handler(Looper.getMainLooper()).post(() -> {
                             Toast.makeText(train_ticket_book.this, "Booking failed", Toast.LENGTH_SHORT).show();
                             responseTV.setText("Booked Failed");
+                            System.out.println("------------------------------------------");
+                            System.out.println("Booked Failed");
+                            System.out.println("bookingID: " + String.valueOf(System.currentTimeMillis()));
+                            System.out.println("nic: " + LoginScreen.getNic(getApplicationContext()));
+                            System.out.println("trainID: " + trainIdPass);//error message
+                            System.out.println("reservationDate: " + formattedDateStr);
+                            System.out.println("bookingDate: " + currentDate );
+                            System.out.println("scheduleId: " + scheduleId );
+                            System.out.println("------------------------------------------");
                         });
                     }
 

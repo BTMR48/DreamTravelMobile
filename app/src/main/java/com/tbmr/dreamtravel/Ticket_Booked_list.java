@@ -53,15 +53,16 @@ public class Ticket_Booked_list extends AppCompatActivity {
         bookings = new ArrayList<>();
         bookingAdapter = new BookingAdapter(bookings);
         recyclerView.setAdapter(bookingAdapter);
-
+        // Fetch token for API calls
+        String nic = LoginScreen.getNic(getApplicationContext());
         // Fetch token for API calls
         String token = LoginScreen.getToken(getApplicationContext());
 
         // Load initial data
-        loadBookings(token);
+        loadBookings(token,nic);
     }
 
-    private void loadBookings(final String token) {
+    private void loadBookings(final String token, final String nic) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -83,7 +84,7 @@ public class Ticket_Booked_list extends AppCompatActivity {
                     SSLContext sc = SSLContext.getInstance("TLS");
                     sc.init(null, trustAllCertificates, new java.security.SecureRandom());
                     HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-                    URL url = new URL("https://10.0.2.2:62214/api/bookings");
+                    URL url = new URL("https://10.0.2.2:62214/api/bookings/nic/" + nic);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("GET");
                     connection.setRequestProperty("Authorization", "Bearer " + token);
@@ -131,7 +132,7 @@ public class Ticket_Booked_list extends AppCompatActivity {
     }
 
 
-    private void cancelBooking(final String bookingID, final String token) {
+    private void cancelBooking( String bookingID,  String token, String nic) {
         System.out.println("cancelBooking    private void : " + bookingID);
         new Thread(new Runnable() {
             @Override
@@ -161,8 +162,6 @@ public class Ticket_Booked_list extends AppCompatActivity {
                     connection.setRequestProperty("Content-Type", "application/json");
 
                     JSONObject jsonRequest = new JSONObject();
-                    jsonRequest.put("id", "");
-                    jsonRequest.put("bookingID", bookingID);
                     jsonRequest.put("status", 1);
 
                     OutputStream os = connection.getOutputStream();
@@ -177,7 +176,7 @@ public class Ticket_Booked_list extends AppCompatActivity {
                             public void run() {
                                 System.out.println("bookingID: " + bookingID);
                                 // Refresh the list of bookings
-                                loadBookings(token);
+                                loadBookings(token,nic);
                                 finish();
                             }
                         });
@@ -257,7 +256,7 @@ public class Ticket_Booked_list extends AppCompatActivity {
                     jsonRequest.put("referenceID", booking.getReferenceID());
                     jsonRequest.put("scheduleId", booking.getScheduleID());
 
-                    //   jsonRequest.put("seatCount", seatCount);
+                       jsonRequest.put("seatCount", seatCount);
 
                     OutputStream os = connection.getOutputStream();
                     os.write(jsonRequest.toString().getBytes());
@@ -272,7 +271,7 @@ public class Ticket_Booked_list extends AppCompatActivity {
                             public void run() {
                                 System.out.println("bookingID: " + booking.bookingID);
                                 // Refresh the list of bookings
-                                loadBookings(token);
+                                loadBookings(token,nic);
                                 finish();
                             }
                         });
@@ -459,7 +458,7 @@ public class Ticket_Booked_list extends AppCompatActivity {
 
                         // Call the updateBooking method
                         Booking booking = bookings.get(getAdapterPosition());
-                        cancelBooking( token, nic);
+                        cancelBooking(booking.bookingID,token, nic);
                     }
                 });
             }
@@ -477,7 +476,7 @@ public class Ticket_Booked_list extends AppCompatActivity {
                 if (booking.status == 0) {
                     cancelButton.setVisibility(View.VISIBLE);
                     updateButton.setVisibility(View.VISIBLE);
-                    cancelButton.setOnClickListener(v -> cancelBooking(booking.bookingID, token));
+                    cancelButton.setOnClickListener(v -> cancelBooking(booking.bookingID, token,nic));
                     updateButton.setOnClickListener(v -> updateBooking(booking, seatCountEditText.getText().toString(), token, nic));
                 } else {
                     cancelButton.setVisibility(View.GONE);
