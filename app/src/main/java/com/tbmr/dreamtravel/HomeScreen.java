@@ -52,15 +52,15 @@ public class HomeScreen extends AppCompatActivity {
         String token = LoginScreen.getToken(getApplicationContext());
 
         // Get the reference to the TextView and set the token as its text
-        TextView tokenTextView = findViewById(R.id.token);
-        tokenTextView.setText(token);
+//        TextView tokenTextView = findViewById(R.id.token);
+//        tokenTextView.setText(token);
 
         // Get the token using the getToken method
         String nic = LoginScreen.getNic(getApplicationContext());
 
         // Get the reference to the TextView and set the token as its text
-        TextView nicTextView = findViewById(R.id.nic);
-        nicTextView.setText(nic);
+//        TextView nicTextView = findViewById(R.id.nic);
+//        nicTextView.setText(nic);
         recyclerView = findViewById(R.id.shedule_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         schedules = new ArrayList<>();
@@ -182,11 +182,11 @@ public class HomeScreen extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position) {
             Schedule schedule = schedules.get(position);
-            holder.departureTime.setText(schedule.getDepartureTime());
-            holder.arrivalTime.setText(schedule.getArrivalTime());
-            holder.startStation.setText(schedule.getStartStation());
-            holder.stoppingStation.setText(schedule.getStoppingStation());
-            holder.trainName.setText(schedule.getTrainName());
+            holder.departureTime.setText("Departure Time : " +schedule.getDepartureTime());
+            holder.arrivalTime.setText("Arrival Time : " +schedule.getArrivalTime());
+            holder.startStation.setText("Start Station : " +schedule.getStartStation());
+            holder.stoppingStation.setText("Stopping Station : " +schedule.getStoppingStation());
+            holder.trainName.setText("Train Name : "  +schedule.getTrainName());
         }
 
         @Override

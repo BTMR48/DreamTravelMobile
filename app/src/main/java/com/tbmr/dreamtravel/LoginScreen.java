@@ -39,7 +39,7 @@ public class LoginScreen extends AppCompatActivity {
     private TextView mTextView;
     private Button signInBtn;
     private ProgressBar loadingPB;  // Add this ProgressBar to your layout as well
-    private TextView responseTV;    // Add this TextView to your layout as well
+//    private TextView responseTV;    // Add this TextView to your layout as well
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class LoginScreen extends AppCompatActivity {
         signInBtn = findViewById(R.id.LoiginBtn);
         mTextView = findViewById(R.id.loginpath2);
         loadingPB = findViewById(R.id.idLoadingPB); // Ensure this ID exists in your layout
-        responseTV = findViewById(R.id.idTVResponse); // Ensure this ID exists in your layout
+//        responseTV = findViewById(R.id.idTVResponse); // Ensure this ID exists in your layout
 
         mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,7 +239,7 @@ public class LoginScreen extends AppCompatActivity {
                                             @Override
                                             public void run() {
                                                 loadingPB.setVisibility(View.GONE);
-                                                responseTV.setText("Login failed! Response code: " + responseCode);
+//                                                responseTV.setText("Login failed! Response code: " + responseCode);
                                             }
                                         });
                                     }
@@ -251,7 +251,7 @@ public class LoginScreen extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             loadingPB.setVisibility(View.GONE);
-                                            responseTV.setText("Network error: " + e.getMessage());
+//                                            responseTV.setText("Network error: " + e.getMessage());
                                         }
                                     });
                                 }
@@ -272,7 +272,7 @@ public class LoginScreen extends AppCompatActivity {
                             @Override
                             public void run() {
                                 loadingPB.setVisibility(View.GONE);
-                                responseTV.setText("Login failed! Response code: " + responseCode);
+//                                responseTV.setText("Login failed! Response code: " + responseCode);
                             }
                         });
                     }
@@ -284,7 +284,7 @@ public class LoginScreen extends AppCompatActivity {
                         @Override
                         public void run() {
                             loadingPB.setVisibility(View.GONE);
-                            responseTV.setText("Network error: " + e.getMessage());
+//                            responseTV.setText("Network error: " + e.getMessage());
                         }
                     });
                 }

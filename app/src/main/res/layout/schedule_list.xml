@@ -3,45 +3,55 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="16dp"
+    android:background="@color/white"
+    android:elevation="10dp"
+    android:radius="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
-
+        android:padding="24dp">
         <TextView
             android:id="@+id/arrivalTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="arrivalTime" />
+            android:text="arrivalTime"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp"/>
         <TextView
             android:id="@+id/departureTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="departureTime" />
-
-
-
+            android:text="departureTime"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp"/>
 
         <TextView
             android:id="@+id/startStation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="startStation" />
-
+            android:text="startStation"
+            android:textSize="16sp"
+            android:paddingBottom="8dp"/>
         <TextView
             android:id="@+id/stoppingStation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="stoppingStation" />
+            android:text="stoppingStation"
+            android:textSize="16sp"
+            android:paddingBottom="8dp"/>
 
         <TextView
             android:id="@+id/trainName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Status" />
+            android:text="Status"
+            android:textSize="16sp"
+            android:textColor="@color/blue"/>
 
 
 

@@ -47,7 +47,8 @@ public class SignUpScreen extends AppCompatActivity {
 
     private EditText mEmail, mPass, signUpNic,signUpName,signUpDateOfBirth;
     private Button signUpBtn;
-    private TextView responseTV;
+//    private TextView responseTV;
+    private TextView  loginpath;
     private ProgressBar loadingPB;
 
     Retrofit retrofit = new Retrofit.Builder()
@@ -65,11 +66,11 @@ public class SignUpScreen extends AppCompatActivity {
         mPass = findViewById(R.id.signupPass);
         signUpNic = findViewById(R.id.signupNic);
         signUpBtn = findViewById(R.id.signupbtn);
-        responseTV = findViewById(R.id.idTVResponse); // Make sure you have a TextView with this ID in your layout
+//        responseTV = findViewById(R.id.idTVResponse);
         loadingPB = findViewById(R.id.idLoadingPB); // Make sure you have a ProgressBar with this ID in your layout
         signUpName = findViewById(R.id.signupName);
         signUpDateOfBirth = findViewById(R.id.signupBirthday);
-
+        loginpath = findViewById(R.id.loginpath);
         // Initialize calendar and get the current date
         final Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
@@ -81,6 +82,12 @@ public class SignUpScreen extends AppCompatActivity {
         Calendar minDate = Calendar.getInstance();
         minDate.add(Calendar.YEAR, -100);
 
+        loginpath.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignUpScreen.this, LoginScreen.class));
+            }
+        });
         signUpDateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,14 +109,43 @@ public class SignUpScreen extends AppCompatActivity {
         });
 
         signUpBtn.setOnClickListener(v -> {
-            if (mEmail.getText().toString().isEmpty() || mPass.getText().toString().isEmpty() || signUpNic.getText().toString().isEmpty()) {
-                Toast.makeText(SignUpScreen.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
+            String email = mEmail.getText().toString();
+            String password = mPass.getText().toString();
+            String nic = signUpNic.getText().toString();
+
+            if (!isValidEmail(email)) {
+                Toast.makeText(SignUpScreen.this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            if (!isValidPassword(password)) {
+                Toast.makeText(SignUpScreen.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!isValidNic(nic)) {
+                Toast.makeText(SignUpScreen.this, "NIC must be a maximum of 12 characters and minimum 10", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             registerNewUser();
         });
 
 
+    }
+
+    private boolean isValidEmail(String email) {
+        // Use Java's built-in email validation. This may not catch all edge cases.
+        String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        return email.matches(regex);
+    }
+
+    private boolean isValidPassword(String password) {
+        return password.length() >= 6;
+    }
+
+    private boolean isValidNic(String nic) {
+        return nic.length() >= 10 && nic.length() <= 12;
     }
 
     private void registerNewUser() {
@@ -205,7 +241,7 @@ public class SignUpScreen extends AppCompatActivity {
                                                 @Override
                                                 public void run() {
                                                     if (secondResponseCode == HttpURLConnection.HTTP_OK) {
-                                                        responseTV.setText("Both registrations were successful!");
+                                                //      responseTV.setText("Both registrations were successful!");
                                                         System.out.println("Date of Birth: " + formattedDateStr);
                                                         Intent intent;
 
@@ -217,7 +253,7 @@ public class SignUpScreen extends AppCompatActivity {
                                                         startActivity(intent);
 
                                                     } else {
-                                                        responseTV.setText("Second registration failed! Response code: " + secondResponseCode);
+//                                                        responseTV.setText("Second registration failed! Response code: " + secondResponseCode);
 
                                                         System.out.println("Date of Birth: " + originalDateStr);
 
@@ -230,7 +266,7 @@ public class SignUpScreen extends AppCompatActivity {
                                             new Handler(Looper.getMainLooper()).post(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    responseTV.setText("Network error in second API call: " + e.getMessage());
+//                                                    responseTV.setText("Network error in second API call: " + e.getMessage());
                                                     loadingPB.setVisibility(View.GONE);
                                                 }
                                             });
@@ -238,7 +274,7 @@ public class SignUpScreen extends AppCompatActivity {
                                     }
                                 }).start();
                             } else {
-                                responseTV.setText("First registration failed! Response code: " + responseCode);
+//                                responseTV.setText("First registration failed! Response code: " + responseCode);
                                 loadingPB.setVisibility(View.GONE);
                             }
                         }
@@ -251,7 +287,7 @@ public class SignUpScreen extends AppCompatActivity {
                         @Override
                         public void run() {
                             loadingPB.setVisibility(View.GONE);
-                            responseTV.setText("Network error: " + e.getMessage());
+//                            responseTV.setText("Network error: " + e.getMessage());
                         }
                     });
                 }

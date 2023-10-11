@@ -64,8 +64,10 @@ public class train_ticket_book extends AppCompatActivity {
         Calendar minDate = Calendar.getInstance();
         minDate.add(Calendar.YEAR, -100);
         Intent intent = getIntent();
+
         String scheduleId = intent.getStringExtra("scheduleId");
         System.out.println("scheduleId: train_ticket_book " + scheduleId);
+
         book.setOnClickListener(v -> {
             if (bookDate.getText().toString().isEmpty() || seatCountEditText.getText().toString().isEmpty() ) {
                 Toast.makeText(train_ticket_book.this, "Please fill out bookDate and seatCount", Toast.LENGTH_SHORT).show();
@@ -174,23 +176,26 @@ public class train_ticket_book extends AppCompatActivity {
                     System.out.println("nic: " + LoginScreen.getNic(getApplicationContext()));
                     System.out.println("trainID: " + trainIdPass);//error message
                     System.out.println("reservationDate: " + formattedDateStr);
-                    System.out.println("bookingDate: " + currentDate );
-                    System.out.println("bookingDate: " + currentDate );
+                    System.out.println("bookingDate: " + bookDate.getText().toString() );
+                    System.out.println("today date: " + currentDate );
 
                     int seatCountInt = Integer.parseInt(seatCountEditText.getText().toString());
                     JSONObject jsonRequest = new JSONObject();
                     jsonRequest.put("id", "");
-                    jsonRequest.put("bookingID", String.valueOf(System.currentTimeMillis()));
+                    jsonRequest.put("bookingID", "B-"+String.valueOf(System.currentTimeMillis()));
                     jsonRequest.put("scheduleID", scheduleId);
 
                     jsonRequest.put("seatCount", seatCountInt);
                     jsonRequest.put("nic", LoginScreen.getNic(getApplicationContext()));
                     jsonRequest.put("trainID", trainIdPass);
 
-                    jsonRequest.put("reservationDate", formattedDateStr);
+                    jsonRequest.put("reservationDate", formattedDateStr );
                     jsonRequest.put("bookingDate", currentDate);
                     jsonRequest.put("status", 0);
-                    jsonRequest.put("referenceID", "string");
+                    jsonRequest.put("referenceID", "RF-"+String.valueOf(System.currentTimeMillis()));
+
+                    System.out.println("JSON reservationDate: " + jsonRequest.getString("reservationDate"));
+                    System.out.println("JSON bookingDate: " + jsonRequest.getString("bookingDate"));
 
 
                     URL url = new URL(apiUrl);

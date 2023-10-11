@@ -3,67 +3,82 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:background="#FFFFFF"
+    android:layout_gravity="center"
+    android:radius="20dp"
+    android:elevation="5dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:padding="16dp">
+
+<TextView
+    android:id="@+id/reservationDate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Reservation Date" />
+
+<EditText
+    android:id="@+id/seatCount"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="number"
+    android:text="Seat Count" />
+
+<TextView
+    android:id="@+id/trainID"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Train ID" />
+
+<TextView
+    android:id="@+id/bookingDate"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Booking Date" />
+
+    <TextView
+        android:id="@+id/bookingID"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:text="Booking ID" />
 
-        <TextView
-            android:id="@+id/bookingID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Booking ID" />
+<TextView
+    android:id="@+id/status"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Status" />
 
-        <EditText
-            android:id="@+id/seatCount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text="Seat Count" />
+<TextView
+    android:id="@+id/scheduleId"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="scheduleId" />
 
-        <TextView
-            android:id="@+id/trainID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Train ID" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="end">
 
-        <TextView
-            android:id="@+id/reservationDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reservation Date" />
+    <Button
+        android:id="@+id/updateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        android:backgroundTint="#4CAF50"
+    android:textColor="#FFFFFF"/>
 
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Status" />
-        <TextView
-            android:id="@+id/scheduleId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="scheduleId" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="end">
-
-            <Button
-                android:id="@+id/updateButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Update" />
-
-            <Button
-                android:id="@+id/cancelButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cancel" />
-        </LinearLayout>
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:backgroundTint="#F44336"
+    android:textColor="#FFFFFF"/>
+</LinearLayout>
+</LinearLayout>
+    </androidx.cardview.widget.CardView>
