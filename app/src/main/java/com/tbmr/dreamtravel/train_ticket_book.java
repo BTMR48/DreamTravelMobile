@@ -33,7 +33,7 @@ public class train_ticket_book extends AppCompatActivity {
     EditText seatCountEditText,bookDate;
     Button book,bookTicket;
     TextView departureTimeTextView, arrivalTimeTextView, startStationTextView, stoppingStationTextView, trainIdTextView;
-    private TextView responseTV;
+//    private TextView responseTV;
     private ProgressBar loadingPB;
 
     @Override
@@ -50,7 +50,7 @@ public class train_ticket_book extends AppCompatActivity {
         startStationTextView = findViewById(R.id.startStation);
         stoppingStationTextView = findViewById(R.id.stoppingStation);
         trainIdTextView = findViewById(R.id.trainId);
-        responseTV = findViewById(R.id.idTVResponse); // Make sure you have a TextView with this ID in your layout
+//        responseTV = findViewById(R.id.idTVResponse); // Make sure you have a TextView with this ID in your layout
         loadingPB = findViewById(R.id.idLoadingPB); // Make sure you have a ProgressBar with this ID in your layout
         // Get the schedule ID passed from the previous activity
         // Initialize calendar and get the current date
@@ -60,21 +60,47 @@ public class train_ticket_book extends AppCompatActivity {
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
         // Calculate the minimum date (yesterday)
         Calendar maxDate = Calendar.getInstance();
-        maxDate.add(Calendar.YEAR, -10);
+        maxDate.add(Calendar.DAY_OF_MONTH,+30);
         Calendar minDate = Calendar.getInstance();
-        minDate.add(Calendar.YEAR, -100);
+        minDate.add(Calendar.DAY_OF_MONTH,+ 1);
         Intent intent = getIntent();
 
         String scheduleId = intent.getStringExtra("scheduleId");
         System.out.println("scheduleId: train_ticket_book " + scheduleId);
 
         book.setOnClickListener(v -> {
-            if (bookDate.getText().toString().isEmpty() || seatCountEditText.getText().toString().isEmpty() ) {
-                Toast.makeText(train_ticket_book.this, "Please fill out bookDate and seatCount", Toast.LENGTH_SHORT).show();
+            String bookDateValue = bookDate.getText().toString();
+            String seatCountValue = seatCountEditText.getText().toString();
+
+            // Check if both fields are empty
+            if (bookDateValue.isEmpty() && seatCountValue.isEmpty()) {
+                Toast.makeText(train_ticket_book.this, "Please fill the seat count and date", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+            // Check if date is empty
+            if (bookDateValue.isEmpty()) {
+                Toast.makeText(train_ticket_book.this, "Please add date", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Check if seat count is empty
+            if (seatCountValue.isEmpty()) {
+                Toast.makeText(train_ticket_book.this, "Please add seat count", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Parse the seat count value and validate it
+            int seatCount = Integer.parseInt(seatCountValue);
+            if (seatCount < 1 || seatCount > 4) {
+                Toast.makeText(train_ticket_book.this, "Invalid seat count", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // If all validations pass, proceed to book seats
             bookSeats(scheduleId);
         });
+
 
         bookDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,11 +156,11 @@ public class train_ticket_book extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                departureTimeTextView.setText(departureTime);
-                                arrivalTimeTextView.setText(arrivalTime);
-                                startStationTextView.setText(startStation);
-                                stoppingStationTextView.setText(stoppingStation);
-                                trainIdTextView.setText(trainId);
+                                departureTimeTextView.setText("Departure Time : " + departureTime);
+                                arrivalTimeTextView.setText("Arrival Time : " + arrivalTime);
+                                startStationTextView.setText("Start Station : " + startStation);
+                                stoppingStationTextView.setText("Stopping Station : " + stoppingStation);
+                                trainIdTextView.setText("Train Id: " + trainId);
                             }
                         });
                     }
@@ -230,7 +256,7 @@ public class train_ticket_book extends AppCompatActivity {
                         // Handle failure
                         new Handler(Looper.getMainLooper()).post(() -> {
                             Toast.makeText(train_ticket_book.this, "Booking failed", Toast.LENGTH_SHORT).show();
-                            responseTV.setText("Booked Failed");
+//                            responseTV.setText("Booked Failed");
                             System.out.println("------------------------------------------");
                             System.out.println("Booked Failed");
                             System.out.println("bookingID: " + String.valueOf(System.currentTimeMillis()));
@@ -248,7 +274,7 @@ public class train_ticket_book extends AppCompatActivity {
                     e.printStackTrace();
                     new Handler(Looper.getMainLooper()).post(() -> {
                         Toast.makeText(train_ticket_book.this, "Network error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        responseTV.setText("Network error in  API call: " + e.getMessage());
+//                        responseTV.setText("Network error in  API call: " + e.getMessage());
                         loadingPB.setVisibility(View.GONE);
                     });
                 }
