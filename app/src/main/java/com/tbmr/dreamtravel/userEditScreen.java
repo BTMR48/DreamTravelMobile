@@ -29,7 +29,7 @@ import java.util.Date;
 
 public class userEditScreen extends AppCompatActivity {
     private EditText  userEditEmail,userEditNic, userEditName, userEditBirthday, userEditPass;
-    private TextView idTVResponse;
+//    private TextView idTVResponse;
     private Button userEditbtn,userDeactivateBtn;
 
     @Override
@@ -41,7 +41,7 @@ public class userEditScreen extends AppCompatActivity {
         userEditName = findViewById(R.id.userEditName);
         userEditBirthday = findViewById(R.id.userEditBirthday);
         userEditbtn = findViewById(R.id.userEditbtn);
-        idTVResponse = findViewById(R.id.idTVResponse);
+//        idTVResponse = findViewById(R.id.idTVResponse);
          userDeactivateBtn = findViewById(R.id.userDeactivateBtn);
 
         // Fetch user data
@@ -161,7 +161,7 @@ public class userEditScreen extends AppCompatActivity {
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
-                                idTVResponse.setText("Failed to fetch data! Response code: " + responseCode);
+//                                idTVResponse.setText("Failed to fetch data! Response code: " + responseCode);
                             }
                         });
                     }
@@ -170,7 +170,7 @@ public class userEditScreen extends AppCompatActivity {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            idTVResponse.setText("Network error: " + e.getMessage());
+//                            idTVResponse.setText("Network error: " + e.getMessage());
                         }
                     });
                 }
@@ -235,7 +235,7 @@ public class userEditScreen extends AppCompatActivity {
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
-                                idTVResponse.setText("Failed to update! Response code: " + responseCode);
+//                                idTVResponse.setText("Failed to update! Response code: " + responseCode);
                             }
                         });
                     }
@@ -244,7 +244,7 @@ public class userEditScreen extends AppCompatActivity {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            idTVResponse.setText("Network error: " + e.getMessage());
+//                            idTVResponse.setText("Network error: " + e.getMessage());
                         }
                     });
                 }
@@ -282,7 +282,7 @@ public class userEditScreen extends AppCompatActivity {
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
-                                idTVResponse.setText("Failed to deactivate! Response code: " + responseCode);
+//                                idTVResponse.setText("Failed to deactivate! Response code: " + responseCode);
                             }
                         });
                     }
@@ -291,7 +291,7 @@ public class userEditScreen extends AppCompatActivity {
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            idTVResponse.setText("Network error: " + e.getMessage());
+//                            idTVResponse.setText("Network error: " + e.getMessage());
                         }
                     });
                 }
