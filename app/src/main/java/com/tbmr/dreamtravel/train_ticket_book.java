@@ -50,8 +50,8 @@ public class train_ticket_book extends AppCompatActivity {
         startStationTextView = findViewById(R.id.startStation);
         stoppingStationTextView = findViewById(R.id.stoppingStation);
         trainIdTextView = findViewById(R.id.trainId);
-//        responseTV = findViewById(R.id.idTVResponse); // Make sure you have a TextView with this ID in your layout
-        loadingPB = findViewById(R.id.idLoadingPB); // Make sure you have a ProgressBar with this ID in your layout
+//        responseTV = findViewById(R.id.idTVResponse);
+        loadingPB = findViewById(R.id.idLoadingPB);
         // Get the schedule ID passed from the previous activity
         // Initialize calendar and get the current date
         final Calendar calendar = Calendar.getInstance();
@@ -152,7 +152,7 @@ public class train_ticket_book extends AppCompatActivity {
                         String stoppingStation = jsonResponse.getString("stoppingStation");
                         String trainId = jsonResponse.getJSONObject("train").getString("id");
 
-//                        this.trainId = trainId; // Update the class-level variable
+//                        this.trainId = trainId;
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

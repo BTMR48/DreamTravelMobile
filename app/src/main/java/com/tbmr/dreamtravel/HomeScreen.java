@@ -84,15 +84,17 @@ public class HomeScreen extends AppCompatActivity {
             public void run() {
 
                 try {
-                    // Bypass SSL
+                    // Bypass SSL verification (Not recommended for production)
                     TrustManager[] trustAllCertificates = new TrustManager[]{
                             new X509TrustManager() {
                                 public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                                     return null;
                                 }
+                                // Initialize and configure HTTP connection
 
                                 public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
                                 }
+                                // Handle and parse the server response
 
                                 public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) {
                                 }
@@ -150,6 +152,7 @@ public class HomeScreen extends AppCompatActivity {
         }).start();
     }
 
+    // Navigation methods to different screens
 
 
     public void userEditScreen(View view) {
@@ -178,6 +181,7 @@ public class HomeScreen extends AppCompatActivity {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.schedule_list, parent, false);
             return new ScheduleViewHolder(view);
         }
+        // Populate RecyclerView with data
 
         @Override
         public void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position) {
@@ -193,6 +197,8 @@ public class HomeScreen extends AppCompatActivity {
         public int getItemCount() {
             return schedules.size();
         }
+
+        // RecyclerView adapter class
 
         class ScheduleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             TextView departureTime, arrivalTime, startStation, stoppingStation, trainName;

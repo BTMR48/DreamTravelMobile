@@ -246,7 +246,7 @@ public class SignUpScreen extends AppCompatActivity {
                                                         Intent intent;
 
 
-                                                        // Handle other cases or defaults here if necessary
+                                                        // Handle other cases or defaults here if necessary , navigate login screen
                                                         intent = new Intent(SignUpScreen.this, LoginScreen.class);  // default action; change as needed
 
 

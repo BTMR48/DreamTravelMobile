@@ -1,5 +1,5 @@
 package com.tbmr.dreamtravel;
-
+// schedule modele class
 public class Schedule {
     public int id;
     public String departureTime;

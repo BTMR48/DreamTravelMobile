@@ -68,13 +68,15 @@ public class Ticket_Booked_list extends AppCompatActivity {
     }
 
     private void loadBookings(final String token, final String nic) {
+        // Create a new thread to perform network operations
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    // Bypass SSL for development purposes ONLY
+                    // Bypass SSL verification for development purposes ONLY (NOT secure for production)
                     TrustManager[] trustAllCertificates = new TrustManager[]{
                             new X509TrustManager() {
+                                // Dummy trust manager
                                 public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                                     return null;
                                 }
@@ -86,16 +88,30 @@ public class Ticket_Booked_list extends AppCompatActivity {
                                 }
                             }
                     };
+
+                    // Initialize SSL context
                     SSLContext sc = SSLContext.getInstance("TLS");
                     sc.init(null, trustAllCertificates, new java.security.SecureRandom());
+
+                    // Apply the SSL context to all upcoming connections
                     HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+                    // Create a URL object
                     URL url = new URL("https://10.0.2.2:62214/api/bookings/nic/" + nic);
+
+                    // Open a connection
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                    // Set HTTP method to GET
                     connection.setRequestMethod("GET");
+
+                    // Set Authorization header
                     connection.setRequestProperty("Authorization", "Bearer " + token);
 
+                    // Check for successful response
                     int responseCode = connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Read the server's response
                         InputStream inputStream = connection.getInputStream();
                         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                         StringBuilder sb = new StringBuilder();
@@ -103,13 +119,16 @@ public class Ticket_Booked_list extends AppCompatActivity {
                         while ((line = reader.readLine()) != null) {
                             sb.append(line);
                         }
+
+                        // Convert response to string
                         String responseMessage = sb.toString();
 
-                        // Parse JSON and update UI
+                        // Parse JSON response
                         JSONArray jsonResponse = new JSONArray(responseMessage);
                         bookings.clear();
                         for (int i = 0; i < jsonResponse.length(); i++) {
                             JSONObject bookingObject = jsonResponse.getJSONObject(i);
+                            // Extract booking details from JSON
                             String referenceID = bookingObject.getString("referenceID");
                             String scheduleID = bookingObject.getString("scheduleID");
                             String bookingID = bookingObject.getString("bookingID");
@@ -118,13 +137,17 @@ public class Ticket_Booked_list extends AppCompatActivity {
                             String trainID = bookingObject.getString("trainID");
                             String reservationDate = bookingObject.getString("reservationDate");
                             int status = bookingObject.getInt("status");
-                            bookings.add(new Booking(referenceID,scheduleID,bookingDate,bookingID, seatCount, trainID, reservationDate, status));
-                            System.out.println("scheduleId for  " +  scheduleID);
-                            System.out.println("bookingDate for  " +  bookingDate);
-                            System.out.println("bookingDate for  " +  bookingDate);
+
+                            // Add new booking object to bookings list
+                            bookings.add(new Booking(referenceID, scheduleID, bookingDate, bookingID, seatCount, trainID, reservationDate, status));
+
+                            // Print debug information
+                            System.out.println("scheduleId for  " + scheduleID);
+                            System.out.println("bookingDate for  " + bookingDate);
+                            System.out.println("bookingDate for  " + bookingDate);
                         }
 
-                        // Update RecyclerView on the main thread
+                        // Update UI on the main thread
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -133,6 +156,7 @@ public class Ticket_Booked_list extends AppCompatActivity {
                         });
                     }
                 } catch (Exception e) {
+                    // Print stack trace for debugging
                     e.printStackTrace();
                 }
 
@@ -141,13 +165,17 @@ public class Ticket_Booked_list extends AppCompatActivity {
     }
 
 
-    private void cancelBooking( String bookingID,  String token, String nic) {
-        System.out.println("cancelBooking    private void : " + bookingID);
+
+    private void cancelBooking(String bookingID, String token, String nic) {
+        // Debug message for checking bookingID
+        System.out.println("cancelBooking private void: " + bookingID);
+
+        // Create a new thread to perform the network request
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    // Bypass SSL for development purposes ONLY
+                    // Bypass SSL verification for development purposes ONLY (Not secure for production)
                     TrustManager[] trustAllCertificates = new TrustManager[]{
                             new X509TrustManager() {
                                 public java.security.cert.X509Certificate[] getAcceptedIssuers() {
@@ -161,47 +189,70 @@ public class Ticket_Booked_list extends AppCompatActivity {
                                 }
                             }
                     };
+
+                    // Initialize SSL context
                     SSLContext sc = SSLContext.getInstance("TLS");
                     sc.init(null, trustAllCertificates, new java.security.SecureRandom());
+
+                    // Apply the SSL context to upcoming connections
                     HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+                    // Create a URL object for the API endpoint
                     URL url = new URL("https://10.0.2.2:62214/api/bookings/" + bookingID + "/status");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                    // Set HTTP method to PATCH for updating the booking status
                     connection.setRequestMethod("PATCH");
+
+                    // Set Authorization and Content-Type headers
                     connection.setRequestProperty("Authorization", "Bearer " + token);
                     connection.setRequestProperty("Content-Type", "application/json");
 
+                    // Create a JSON object for the request payload
                     JSONObject jsonRequest = new JSONObject();
                     jsonRequest.put("status", 1);
 
+                    // Write JSON payload to the OutputStream
                     OutputStream os = connection.getOutputStream();
                     os.write(jsonRequest.toString().getBytes());
                     os.flush();
                     os.close();
 
+                    // Get response code from the server
                     int responseCode = connection.getResponseCode();
+
+                    // Check if the operation was successful
                     if (responseCode == HttpURLConnection.HTTP_OK) {
+                        // Update UI on the main thread
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
+                                // Log the successful cancelation
                                 System.out.println("bookingID: " + bookingID);
+
                                 // Refresh the list of bookings
-                                loadBookings(token,nic);
+                                loadBookings(token, nic);
                                 finish();
                             }
                         });
 
-                    }else {
+                    } else {
+                        // Handle unsuccessful operation
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
+                                // Display an error message with the response code
                                 idTVResponse.setText("Failed to deactivate! Response code: " + responseCode);
                             }
                         });
                     }
 
                 } catch (Exception e) {
+                    // Handle exception
                     System.out.println("Exception: " + bookingID);
                     e.printStackTrace();
+
+                    // Update UI with error message on the main thread
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
@@ -215,86 +266,91 @@ public class Ticket_Booked_list extends AppCompatActivity {
     }
 
 
+
     private void updateBooking(final Booking booking, final String seatCount, final String token, final String nic) {
-        System.out.println("updateBooking    private void : " + booking.bookingID);
+        // Debug message for checking bookingID
+        System.out.println("updateBooking private void : " + booking.bookingID);
+
+        // Start a new thread to perform the network operation
         new Thread(new Runnable() {
             @Override
             public void run() {
+                // Check seat count validity
                 if (Integer.parseInt(seatCount) < 1 || Integer.parseInt(seatCount) > 4) {
-                    // Show an error message
+                    // Show an error message if seat count is invalid
                     return;
                 }
+
                 try {
-                    // Bypass SSL for development purposes ONLY
+                    // Bypass SSL for development purposes ONLY (Not secure for production)
                     TrustManager[] trustAllCertificates = new TrustManager[]{
                             new X509TrustManager() {
                                 public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                                     return null;
                                 }
-
                                 public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) {
                                 }
-
                                 public void checkServerTrusted(X509Certificate[] certs, String authType) {
                                 }
                             }
                     };
+
+                    // Initialize SSL context
                     SSLContext sc = SSLContext.getInstance("TLS");
                     sc.init(null, trustAllCertificates, new java.security.SecureRandom());
+
+                    // Apply SSL context to upcoming HTTPS connections
                     HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+                    // Initialize connection to server API
                     URL url = new URL("https://10.0.2.2:62214/api/bookings/" + booking.bookingID);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                    // Set method and headers
                     connection.setRequestMethod("PUT");
                     connection.setRequestProperty("Authorization", "Bearer " + token);
                     connection.setRequestProperty("Content-Type", "application/json");
-                    System.out.println("bookingID: " + booking.bookingID);
-                    System.out.println("nic: " + nic);
-                    System.out.println("trainID"+ booking.trainID);
-                    System.out.println("referenceID"+ booking.getReferenceID());
-                    System.out.println("scheduleId " +  booking.getBookingDate());
-                    System.out.println("booking.bookingDate " +  booking.getScheduleID());
-                    System.out.println("seatCount " +  seatCount);
 
+                    // Debugging output
+                    System.out.println("bookingID: " + booking.bookingID);
+
+
+                    // Create JSON object to hold request parameters
                     JSONObject jsonRequest = new JSONObject();
                     jsonRequest.put("id", "");
                     jsonRequest.put("bookingID", booking.bookingID);
-                    jsonRequest.put("nic", nic);
-                    jsonRequest.put("trainID", booking.trainID);
-                    jsonRequest.put("reservationDate", booking.reservationDate);
-                    jsonRequest.put("bookingDate", booking.getScheduleID());
-                    jsonRequest.put("status", booking.status);
-                    jsonRequest.put("referenceID", booking.getReferenceID());
-                    jsonRequest.put("scheduleId", booking.getBookingDate());
 
-                       jsonRequest.put("seatCount", seatCount);
+                    jsonRequest.put("seatCount", seatCount);
 
+                    // Send the request
                     OutputStream os = connection.getOutputStream();
                     os.write(jsonRequest.toString().getBytes());
                     os.flush();
                     os.close();
 
+                    // Get and check the server response
                     int responseCode = connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
-
+                        // Update UI on main thread
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
-                                System.out.println("bookingID: " + booking.bookingID);
-                                // Refresh the list of bookings
-                                loadBookings(token,nic);
+                                // Refresh the list of bookings and close the activity
+                                loadBookings(token, nic);
                                 finish();
                             }
                         });
-
-                    }else {
+                    } else {
+                        // Handle error case
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
-                                idTVResponse.setText("Failed to deactivate! Response code: " + responseCode);
+                                idTVResponse.setText("Failed to update! Response code: " + responseCode);
                             }
                         });
                     }
                 } catch (Exception e) {
+                    // Handle exceptions
                     e.printStackTrace();
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
@@ -303,7 +359,6 @@ public class Ticket_Booked_list extends AppCompatActivity {
                         }
                     });
                 }
-
             }
         }).start();
     }
