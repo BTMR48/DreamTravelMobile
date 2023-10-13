@@ -85,26 +85,32 @@
     <!--text view for displaying our API response-->
 
     <!--progress bar for loading -->
-    <TextView
-        android:id="@+id/idTVResponse"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center_horizontal"
-        android:text="Response"
-        android:textAlignment="center"
-        android:textSize="15sp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/loginpath2"
-        tools:layout_editor_absoluteY="626dp" />
+<!--    <TextView-->
+<!--        android:id="@+id/idTVResponse"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:text="Response"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textSize="15sp"-->
+<!--        tools:ignore="MissingConstraints"-->
+<!--        tools:layout_editor_absoluteX="16dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/loginpath2"-->
+<!--        tools:layout_editor_absoluteY="626dp" />-->
 
     <ProgressBar
         android:id="@+id/idLoadingPB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="137dp"
+        android:layout_height="105dp"
         android:layout_gravity="center"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/idTVResponse"
+
+        android:layout_marginTop="88dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logoLottieAnimation"
+        app:layout_constraintVertical_bias="0.279"
         tools:ignore="MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

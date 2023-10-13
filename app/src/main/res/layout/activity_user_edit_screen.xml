@@ -28,9 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="22dp"
-        android:layout_marginEnd="137dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="24dp"
         android:layout_toEndOf="@+id/back"
         android:fontFamily="arial"
         android:text="User Edit"
@@ -40,70 +39,65 @@
         app:layout_constraintStart_toEndOf="@+id/back"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/userEditNic"
-        android:layout_width="247dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="80dp"
-        android:ems="10"
-        android:hint="Enter Nic"
-        android:inputType="textCapCharacters"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toStartOf="parent"
-        android:enabled="false"
-        app:layout_constraintTop_toBottomOf="@+id/userEditTitle"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
-    <EditText
-        android:id="@+id/userEditEmail"
-        android:layout_width="247dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="80dp"
-        android:ems="10"
-        android:hint="Enter Email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userEditNic"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
-
-    <EditText
-        android:id="@+id/userEditName"
-        android:layout_width="247dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="80dp"
-        android:ems="10"
-        android:hint="Enter Name"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userEditEmail"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/userEditTitle">
 
-    <EditText
-        android:id="@+id/userEditBirthday"
-        android:layout_width="247dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="80dp"
-        android:ems="10"
-        android:hint="Enter Birthday"
-        android:focusable="false"
-        android:clickable="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.75"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userEditName"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <EditText
+                android:id="@+id/userEditNic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:ems="10"
+                android:enabled="false"
+                android:hint="Enter Nic"
+                android:inputType="textCapCharacters" />
+
+            <EditText
+                android:id="@+id/userEditEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="8dp"
+                android:ems="10"
+                android:hint="Enter Email"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/userEditName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="8dp"
+                android:ems="10"
+                android:hint="Enter Name" />
+
+            <EditText
+                android:id="@+id/userEditBirthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:clickable="true"
+                android:ems="10"
+                android:focusable="false"
+                android:hint="Enter Birthday" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 
 <!--    <EditText-->
@@ -122,48 +116,60 @@
 <!--        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />-->
 
 
-    <TextView
-        android:id="@+id/idTVResponse"
-        android:layout_width="match_parent"
+<!--    <TextView-->
+<!--        android:id="@+id/idTVResponse"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:layout_marginTop="140dp"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:text="Response"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textSize="15sp"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/userEditbtn"-->
+<!--        tools:ignore="MissingConstraints"-->
+<!--        tools:layout_editor_absoluteX="20dp" />-->
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="414dp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="140dp"
-        android:gravity="center_horizontal"
-        android:text="Response"
-        android:textAlignment="center"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/userEditbtn"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="20dp" />
-
-    <Button
-        android:id="@+id/userEditbtn"
-        android:layout_width="173dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="100dp"
-        android:background="@drawable/btn_green_gradient"
-        android:gravity="center"
-        android:text="Update User"
-        app:backgroundTint="@null"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="100dp"
+        android:elevation="4dp"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userEditBirthday" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
-    <Button
-        android:id="@+id/userDeactivateBtn"
-        android:layout_width="173dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="108dp"
-        android:layout_marginEnd="100dp"
-        android:background="@color/red"
-        android:gravity="center"
-        android:text="Update User"
-        app:backgroundTint="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userEditbtn" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="96dp"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <Button
+                android:id="@+id/userEditbtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_green_gradient"
+                android:text="Update User"
+                app:backgroundTint="@null" />
+
+            <Button
+                android:id="@+id/userDeactivateBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_red_gradient"
+                android:text="Deactivate Account"
+                app:backgroundTint="@null" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,26 +32,31 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+// LoginScreen Activity class definition
 
 public class LoginScreen extends AppCompatActivity {
+    // Declare UI elements
 
     private EditText mNic, mPass;
     private TextView mTextView;
     private Button signInBtn;
     private ProgressBar loadingPB;  // Add this ProgressBar to your layout as well
-    private TextView responseTV;    // Add this TextView to your layout as well
+//    private TextView responseTV;    // Add this TextView to your layout as well
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+        // Initialize UI elements
 
         mNic = findViewById(R.id.loginNIC);
         mPass = findViewById(R.id.loginPass);
         signInBtn = findViewById(R.id.LoiginBtn);
         mTextView = findViewById(R.id.loginpath2);
         loadingPB = findViewById(R.id.idLoadingPB); // Ensure this ID exists in your layout
-        responseTV = findViewById(R.id.idTVResponse); // Ensure this ID exists in your layout
+//        responseTV = findViewById(R.id.idTVResponse); // Ensure this ID exists in your layout
+
+        // Click listener for navigating to the SignUpScreen
 
         mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +64,7 @@ public class LoginScreen extends AppCompatActivity {
                 startActivity(new Intent(LoginScreen.this, SignUpScreen.class));
             }
         });
+        // Click listener for the Sign-in button
 
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,11 +73,14 @@ public class LoginScreen extends AppCompatActivity {
             }
         });
     }
+    // Method to handle user login
 
     private void loginUser() {
 
-        loadingPB.setVisibility(View.VISIBLE);
+        loadingPB.setVisibility(View.VISIBLE);// Show loading ProgressBar
 
+
+        // Create a new Thread for the network operation
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -239,7 +248,7 @@ public class LoginScreen extends AppCompatActivity {
                                             @Override
                                             public void run() {
                                                 loadingPB.setVisibility(View.GONE);
-                                                responseTV.setText("Login failed! Response code: " + responseCode);
+//                                                responseTV.setText("Login failed! Response code: " + responseCode);
                                             }
                                         });
                                     }
@@ -251,15 +260,14 @@ public class LoginScreen extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                             loadingPB.setVisibility(View.GONE);
-                                            responseTV.setText("Network error: " + e.getMessage());
+//                                            responseTV.setText("Network error: " + e.getMessage());
                                         }
                                     });
                                 }
                                 Intent intent;
 
 
-                                    intent = new Intent(LoginScreen.this, HomeScreen.class);
-
+                                intent = new Intent(LoginScreen.this, HomeScreen.class);
 
 
                                 startActivity(intent);
@@ -272,7 +280,7 @@ public class LoginScreen extends AppCompatActivity {
                             @Override
                             public void run() {
                                 loadingPB.setVisibility(View.GONE);
-                                responseTV.setText("Login failed! Response code: " + responseCode);
+//                                responseTV.setText("Login failed! Response code: " + responseCode);
                             }
                         });
                     }
@@ -284,24 +292,27 @@ public class LoginScreen extends AppCompatActivity {
                         @Override
                         public void run() {
                             loadingPB.setVisibility(View.GONE);
-                            responseTV.setText("Network error: " + e.getMessage());
+//                            responseTV.setText("Network error: " + e.getMessage());
                         }
                     });
                 }
             }
         }).start();
     }
-
+    // Method to save token into SharedPreference
     private void saveToken(String token) {
         SharedPreferences sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("token", token);
         editor.apply();
     }
+    // Method to retrieve token from SharedPreferences
+
     public static String getToken(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("user_prefs", MODE_PRIVATE);
         return sharedPreferences.getString("token", null);
     }
+    // Method to save NIC into SharedPreferences
 
     private void saveNic(String mNic) {
         SharedPreferences sharedPreferences = getSharedPreferences("user_prefsNic", MODE_PRIVATE);
@@ -309,6 +320,8 @@ public class LoginScreen extends AppCompatActivity {
         editor.putString("NIC", mNic);
         editor.apply();
     }
+    // Method to retrieve NIC from SharedPreferences
+
     public static String getNic(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("user_prefsNic", MODE_PRIVATE);
         return sharedPreferences.getString("NIC", null);

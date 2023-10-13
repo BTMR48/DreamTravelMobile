@@ -7,6 +7,19 @@
     tools:context=".SignUpScreen">
 
 
+    <ProgressBar
+        android:id="@+id/idLoadingPB"
+        android:layout_width="113dp"
+        android:layout_height="135dp"
+        android:layout_gravity="center"
+
+        android:layout_marginTop="21dp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signupNic"
+        tools:ignore="MissingConstraints" />
+
     <EditText
         android:id="@+id/signupEmail"
         android:layout_width="247dp"
@@ -133,32 +146,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idTVResponse"     />
+        app:layout_constraintTop_toBottomOf="@+id/signupbtn"     />
 <!--        app:onClick="NavigateToLogin" -->
 
 
-    <TextView
-        android:id="@+id/idTVResponse"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center_horizontal"
-        android:text="Response"
-        android:textAlignment="center"
-        android:textSize="15sp"
-        app:layout_constraintTop_toBottomOf="@+id/signupbtn"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp" />
+<!--    <TextView-->
+<!--        android:id="@+id/idTVResponse"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:text="Response"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textSize="15sp"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/signupbtn"-->
+<!--        tools:ignore="MissingConstraints"-->
+<!--        tools:layout_editor_absoluteX="16dp" />-->
 
-    <ProgressBar
-        android:id="@+id/idLoadingPB"
-        android:layout_width="113dp"
-        android:layout_height="135dp"
-        android:layout_gravity="center"
-
-        android:visibility="invisible"
-        app:layout_constraintTop_toTopOf="@+id/signupNic"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="147dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
